@@ -1,0 +1,363 @@
+/**
+ * Import core mixins, variables, or others
+ */
+@import "../core/core/mixins";
+@import "../core/core/variables";
+/**
+ * Define your classname
+ */
+$classname: 'calendar';
+/*
+ * Start your css code
+ */
+$borderColor: #eee;
+$bgColor :#ede9dd;
+
+a{
+	color: inherit;
+	&:hover, &:focus{
+		color: inherit;
+		text-decoration: none;
+	}
+}
+ul{
+	padding-left: 0;
+	li{
+		list-style: none;
+		// display: inline-block;
+	}
+}
+.#{$classname} {
+	max-width: 600px;
+	color: #666;
+	box-sizing: border-box;
+	margin: 30px auto;
+
+	.#{$classname}_mode {
+		text-align: right;
+		cursor: pointer;
+		color: #0077b3;
+	}
+	
+
+	.#{$classname}_tabWrap {
+		width: 100%;
+		background-color: $bgColor;
+		display: flex;
+		overflow-x: hidden;
+
+		.prev, .next{
+			width: 20px;
+			height: 50px;
+			background: $bgColor;
+			position: relative;
+			z-index: 2;
+			&::before{
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				margin: auto;
+				display: inline-block;
+				width: 0;
+				height: 0;
+				border-style: solid; 
+			}
+		}
+		.prev{
+			&::before{
+				border-color: transparent #e10500 transparent transparent ;
+				border-width: 7px 7px 7px 0;
+			}
+		}
+		.next{
+			&::before{
+				border-color: transparent transparent transparent #e10500;
+				border-width: 7px 0 7px 7px;
+			}
+		}
+		.prev, .next, .ntb_tab{
+			text-align: center;
+		}
+		.ntb_tab{
+
+			width: calc(100% - 40px);
+			margin-bottom: 0;
+			display: flex;
+			background-color: $bgColor;
+			font-size: 16px;
+			height: 47px;
+			line-height: 47px;
+			padding-top: 3px;
+			transform: translateX(0);
+			
+			li{
+				height: 100%;				
+				min-width: 32%;
+			}
+			a{
+				// height: 50px;
+				display: block;
+				width: 100%;
+			}
+
+			.tab{
+				&.active{
+					a{
+						background-color: #fff;
+						color: #e10500;
+					}
+
+				}
+			}
+		}
+
+	}
+
+	.#{$classname}_weekTitle{
+		display: flex;
+		width: 100%;
+		text-align: center;
+		border: 1px solid $borderColor;
+		// border-bottom: 0px solid transparent;
+		div{
+			width: percentage(1/7);
+		}
+	}
+
+
+	.#{$classname}_daysWrap{
+		display: flex;
+		flex-wrap: wrap;
+		width: 100%;	
+		
+
+		.#{$classname}_days{
+			font-size: 12px;
+			border-left: 1px solid $borderColor;
+			border-bottom: 1px solid $borderColor; 
+			position: relative;
+			min-width: percentage(1/7);
+			padding-left: 3px;
+			min-height: 86px;
+
+			&:nth-of-type(7n){
+				border-right: 1px solid $borderColor;
+			}
+			span{
+				display: block;
+			}
+
+			
+			&:hover{
+				background-color: #fff9e3;
+			}
+			
+			&.active{
+				border: 1px solid #66bb3c;
+				background-color: #fff9e3;
+				
+			}
+
+			&.disable{
+				pointer-events: none;
+				background-color: #f8f8f8;
+				color: #f8f8f8;
+			}
+
+
+			.date{
+				.weekday{
+					display: none;
+				}
+			}
+			.status{
+				color: #24a07c;
+				&.status-O{ //候補
+					color: #ff7800;
+				}
+				&.status-G{ //截止
+					color: #999;
+				}				
+			}
+			.tip{
+				color: #fff;
+				background-color: #66bb3c;
+				position: absolute;
+				top: 0;
+				right: 0;
+			}
+			.price{
+				color: #e10500;
+			}
+			
+			&:last-child{
+				border-right: 1px solid $borderColor;
+			}
+
+		}
+	}
+
+	.#{$classname}_pageBtn{
+		display: none;
+	}
+
+
+	//calendar_listmode
+	&.#{$classname}_listmode{
+
+		.#{$classname}_weekTitle{
+			display: none;
+		}
+
+		.#{$classname}_daysBox{
+			height: 490px;
+			overflow: hidden;
+		}
+			
+		.#{$classname}_daysWrap{
+			transform: translateY(0);
+			display: block;
+
+			.#{$classname}_days{
+				width: 100%;
+				border-right: 1px solid $borderColor;
+				font-size: 14px;
+				min-height: auto;
+				display: none;
+
+				&:hover, &.active{
+					background-color: #fff9e3;
+					border: 1px solid #66bb3c;
+				}
+
+
+				&.disabled{
+					display: none;
+				}
+
+				&.hasData{
+					display: block;
+					.date{
+						width: 60px;
+						text-align: center;
+						display: inline-block;
+						vertical-align: top;
+						.num{
+							display: inline;
+							font-size: 24px;
+						}
+						.weekday{
+							display: block;
+							font-size: 16px;
+						}
+					}
+
+					.status{
+						font-size: 16px;
+						position: absolute;
+						right: 5px;
+						top: 5px;
+					}
+
+					.price{
+						font-size: 16px;
+						position: absolute;
+						right: 5px;
+						bottom: 5px;
+					}
+
+					.tip{
+						display: inline;
+						top: auto;
+						right: auto;
+						left: 68px;
+						bottom: 5px;
+						padding: 0 5px;
+					}
+
+					.sell, .group{
+						display: inline-block;
+						margin-top: 5px;
+					}
+					
+				}
+			}
+			
+		}
+
+		.#{$classname}_pageBtn{
+			display: block;
+			margin-top: 5px;
+			div{
+				width: percentage(1/3);
+				display: inline-block;
+				margin-left: -4px;
+				text-align: center;
+			}
+			.calendar_pagePrev, .calendar_pageNext{
+				color: #0077b3;
+				cursor: pointer;
+				position: relative;
+				.arrow{
+					position: absolute;
+					top: 7px;
+					display: inline-block;
+					width: 0;
+					height: 0;
+					border-style: solid; 
+				}				
+			}			
+			.calendar_pagePrev{
+				.arrow{
+					border-color: transparent #24a07c transparent transparent ;
+					border-width: 4px 4px 4px 0;
+					margin-left: -7px;
+				}
+			}
+			// .calendar_pageNum{
+			// 	// text-align: center
+			// }
+
+			.calendar_pageNext{
+				// text-align: right;
+				.arrow{
+					border-color: transparent transparent transparent #24a07c;
+					border-width: 4px 0 4px 4px;
+					margin-left: 5px;
+				}				
+			}
+		}
+
+	}
+
+}
+
+// &::before{
+// 	content: '';
+// 	position: absolute;
+// 	top: 0;
+// 	left: 0;
+// 	right: 0;
+// 	bottom: 0;
+// 	margin: auto;
+// 	display: inline-block;
+// 	width: 0;
+// 	height: 0;
+// 	border-style: solid; 
+// }
+// }
+// .prev{
+// &::before{
+// 	border-color: transparent #e10500 transparent transparent ;
+// 	border-width: 7px 7px 7px 0;
+// }
+// }
+// .next{
+// &::before{
+// 	border-color: transparent transparent transparent #e10500;
+// 	border-width: 7px 0 7px 7px;
+// }
+// }
